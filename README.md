@@ -83,39 +83,7 @@ Spring Boot CI/CD - Session 11 Exercise 5!
 ```
 
 ---
-
-## 4. Hướng dẫn cấu hình GitHub Secret `REGISTRY_TOKEN`
-
-Để Job `docker-build` có quyền đẩy Docker Image lên GitHub Container Registry (`ghcr.io`), bạn cần cấp quyền thông qua Personal Access Token (PAT).
-
-### Bước 1: Tạo Personal Access Token (PAT Classic)
-1. Đăng nhập vào GitHub, nhấp vào ảnh đại diện góc trên bên phải -> Chọn **Settings**.
-2. Cuộn xuống menu bên trái dưới cùng -> Chọn **Developer Settings**.
-3. Chọn **Personal access tokens** -> Chọn **Tokens (classic)**.
-4. Nhấn nút **Generate new token** -> Chọn **Generate new token (classic)**.
-5. Điền thông tin:
-   - **Note**: `REGISTRY_TOKEN for GHCR`
-   - **Expiration**: Chọn thời hạn (ví dụ: 30 days hoặc 90 days).
-   - **Select scopes** (Tích chọn các quyền sau):
-     - [x] `write:packages` (Tự động tích kèm `read:packages` để tải và đẩy image).
-     - [x] `repo` (Bắt buộc nếu repository của bạn ở chế độ Private).
-     - [x] `delete:packages` (Tùy chọn nếu muốn xóa package sau này).
-6. Nhấn nút **Generate token** ở cuối trang.
-7. **Copy chuỗi token** được sinh ra (chuỗi bắt đầu bằng `ghp_...`). *Lưu ý: Token chỉ hiển thị 1 lần duy nhất.*
-
-### Bước 2: Thêm Secret vào Repository trên GitHub
-1. Truy cập vào Repository của bạn trên GitHub (ví dụ: `https://github.com/Viet2k6/IT209_SS11_Bai5`).
-2. Nhấn vào tab **Settings** của repository.
-3. Ở menu bên trái, tìm mục **Secrets and variables** -> Nhấn chọn **Actions**.
-4. Tại phần **Repository secrets**, nhấn nút **New repository secret**.
-5. Nhập chính xác thông tin:
-   - **Name**: `REGISTRY_TOKEN`
-   - **Secret**: Dán chuỗi token đã copy ở Bước 1.
-6. Nhấn **Add secret** để hoàn tất.
-
----
-
-## 5. Cấu trúc kịch bản CI/CD (`.github/workflows/ci.yml`)
+## 4. Cấu trúc kịch bản CI/CD (`.github/workflows/ci.yml`)
 
 Workflow được chia thành 2 Job kết nối tuần tự:
 
@@ -139,7 +107,7 @@ graph LR
 
 ---
 
-## 6. Hướng dẫn nghiệm thu và kiểm tra trên GitHub Actions
+## 5. Hướng dẫn nghiệm thu và kiểm tra trên GitHub Actions
 
 ### Kịch bản 1: Test màu xanh -> Tự động đóng gói & đẩy Docker Image thành công
 1. Đảm bảo toàn bộ test case đang hoạt động đúng.
@@ -180,8 +148,3 @@ graph LR
    - Job `docker-build` lập tức hiển thị trạng thái **Skipped** (màu xám / biểu tượng bị bỏ qua), **hoàn toàn không được kích hoạt**, không thực hiện login và không tạo image lỗi lên registry.
 5. Sửa lại bài test cho đúng và push lại để pipeline trở lại màu xanh.
 
----
-
-## 7. Sản phẩm nộp bài
-1. Tệp cấu hình kịch bản: `.github/workflows/ci.yml`.
-2. Ảnh chụp màn hình biểu đồ Workflow hiển thị sơ đồ 2 Job kết nối thành công (`test` nối sang `docker-build`).
